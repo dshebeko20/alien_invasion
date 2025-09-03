@@ -2,6 +2,8 @@ import sys
 
 import pygame
 
+from settings import Settings
+
 class AlienIvasion:
     """Класс для управлением ресурсами и поведением игры."""
 
@@ -9,8 +11,11 @@ class AlienIvasion:
         """Инициализирует игру и создаёт игровые ресурсы"""
         pygame.init()
         self.clock = pygame.time.Clock()
+        self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((1200, 800))
+
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
         self.bg_color = (230, 230, 230)
@@ -24,7 +29,7 @@ class AlienIvasion:
                     sys.exit()
             
             # При каждом проходе цикла прерисовывается экран.
-            self.screen.fill(self.bg_color)
+            self.screen.fill(self.settings.bg_color)
 
             # Отображение последнего прорисованного экрана.
             pygame.display.flip()
