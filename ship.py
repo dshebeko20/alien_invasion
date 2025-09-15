@@ -2,6 +2,7 @@ import pygame
 
 class Ship:
     """Класс для управления корблём."""
+    
     def __init__(self, ai_game):
         """Инициализирует корабль и задаёт его начальную позицию."""
         self.screen = ai_game.screen
