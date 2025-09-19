@@ -33,6 +33,7 @@ class AlienIvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
             self.clock.tick(60)
     
@@ -69,6 +70,19 @@ class AlienIvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+
+    def _update_bullets(self):
+        """ Обновляет позиции снарядов и уничтожает старые снаряды."""
+        self.bullets.update()
+        
+        # Удаление снарядов, вышедших за край экрана.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """Обновляет позиции всех ппришельцев во флоте."""
+        self.aliens.update() 
     
     def _create_fleet(self):
         """Создаёт флот пришеьцев."""
@@ -96,16 +110,6 @@ class AlienIvasion:
         new_alien.rect.y = y_position
         self.aliens.add(new_alien)
         
-    def _update_bullets(self):
-        """ Обновляет позиции снарядов и уничтожает старые снаряды."""
-        self.bullets.update()
-        
-        # Удаление снарядов, вышедших за край экрана.
-        for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
-                self.bullets.remove(bullet)   
-                
-    
     def _update_screen(self):
             """Обновляет изображения на экране и отображает новый экран."""
             self.screen.fill(self.settings.bg_color)
