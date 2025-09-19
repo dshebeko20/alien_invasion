@@ -20,3 +20,6 @@ class Settings:
 
         # Настройки пришельцев
         self.alien_speed = 1.0
+        self.fleet_groop_speed = 10
+        # fleet_direction = 1 обозначает движение впрааво, ф -1 - влево.
+        self.fleet_direction = 1
