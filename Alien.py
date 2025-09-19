@@ -21,8 +21,8 @@ class Alien(Sprite):
         # Сохранение точной горизонтальной позиции пришельца.
         self.x = float(self.rect.x)
 
-    def check_eadges(self):
-        """Возвращает True, если пришедец находитя у края экрана."""
+    def check_edges(self):
+        """Возвращает True, если пришелец находитя у края экрана."""
         screen_rect = self.screen.get_rect()
         return(self.rect.right >= screen_rect.right) or (self.rect.left <= 0)
 
