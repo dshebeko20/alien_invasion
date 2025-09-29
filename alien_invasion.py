@@ -99,6 +99,10 @@ class AlienIvasion:
         """
         self._check_fleet_edges()
         self.aliens.update() 
+
+        # Проверка коллизий "пришелец - кораль".
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship Hit!")
     
     def _create_fleet(self):
         """Создаёт флот пришеьцев."""
