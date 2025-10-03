@@ -67,8 +67,22 @@ class AlienIvasion:
 
     def _check_play_button(self, mouse_pos):
         """Запускает новую игру при нажатии кнопки Play"""
-        if self.play_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            # Сброс игровой статиистики.
+            self.stats.reset_stats()
             self.game_active = True
+
+            # Очистка групп aliens и bullets.
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # Создание нового флота и размещение корабля в центре.
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # Указатель мыши скрывается.
+            pygame.mouse.set_visible(False)
                 
     def _check_keydown_events(self, event):
         """Реагирует на нажатие клавиш."""      
@@ -106,7 +120,7 @@ class AlienIvasion:
         self._check_bullet_alien_colisions()
     
     def _check_bullet_alien_colisions(self):
-        """Обрабатывает колиизии снарядов с пришельцами."""
+        """Обрабатывает коллизии снарядов с пришельцами."""
         # Удаление снарядов и приишельцев, уаствующих в колизиях.
         collisions = pygame.sprite.groupcollide(
                 self.bullets, self.aliens, True, True)
@@ -134,6 +148,7 @@ class AlienIvasion:
             sleep(0.5)
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _update_aliens(self):
         """
@@ -148,9 +163,9 @@ class AlienIvasion:
             self._ship_hit()
 
         # Проверить, сталкивается ли пришелец с нижним краем экрана.
-        self.check_aliens_bottom()
+        self._check_aliens_bottom()
 
-    def check_aliens_bottom(self):
+    def _check_aliens_bottom(self):
         """Проверяет, добралиась ли пришельцы до нижнего кра экрана."""
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= self.settings.screen_height:
@@ -172,7 +187,7 @@ class AlienIvasion:
                 self._create_alien(current_x, current_y)
                 current_x += 2 * alien_width
 
-            # Конец ряда: сбрасываем значение x  и инкрементируем значение y.
+            # Конец ряда: сбрасываем значение x и инкрементируем значение y.
             current_x = alien_width
             current_y += 2 * alien_height
            
