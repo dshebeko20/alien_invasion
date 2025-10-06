@@ -69,8 +69,10 @@ class AlienIvasion:
         """Запускает новую игру при нажатии кнопки Play"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
+            # Сброс игровых настроек.
+            self.settings.initialize_dinamic_settings()
             self._start_game()
-    
+            
     def _start_game(self):
         # Сброс игровой статиистики.
         self.stats.reset_stats()
@@ -134,6 +136,7 @@ class AlienIvasion:
             # Уничтожение существующих снарядов и создание нового флота.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increace_speed()
 
     def _ship_hit(self):
         """Обрабатыват столкновение корабля с пришельцем."""
