@@ -5,12 +5,13 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
 
-class AlienIvasion:
+class AlienInvasion:
     """Класс для управлением ресурсами и поведением игры."""
 
     def __init__(self):
@@ -24,8 +25,9 @@ class AlienIvasion:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
 
-        # Создание экзимпляра для хранения игроввой статистики.
+        # Создание экземпляров для хранения статистики и панели результатов.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -76,6 +78,7 @@ class AlienIvasion:
     def _start_game(self):
         # Сброс игровой статиистики.
         self.stats.reset_stats()
+        self.sb.prep_score()
         self.game_active = True
 
         # Очистка групп aliens и bullets.
@@ -124,9 +127,9 @@ class AlienIvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         
-        self._check_bullet_alien_colisions()
+        self._check_bullet_alien_collisions()
     
-    def _check_bullet_alien_colisions(self):
+    def _check_bullet_alien_collisions(self):
         """Обрабатывает коллизии снарядов с пришельцами."""
         # Удаление снарядов и приишельцев, уаствующих в колизиях.
         collisions = pygame.sprite.groupcollide(
@@ -137,6 +140,12 @@ class AlienIvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increace_speed()
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
 
     def _ship_hit(self):
         """Обрабатыват столкновение корабля с пришельцем."""
@@ -164,7 +173,7 @@ class AlienIvasion:
         позиций всех пришельцев во флоте.
         """
         self._check_fleet_edges()
-        self.aliens.update() 
+        self.aliens.update()
 
         # Проверка коллизий "пришелец - кораль".
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
@@ -221,20 +230,23 @@ class AlienIvasion:
         self.settings.fleet_direction *= -1
         
     def _update_screen(self):
-            """Обновляет изображения на экране и отображает новый экран."""
-            self.screen.fill(self.settings.bg_color)
-            for bullet in self.bullets.sprites():
-                bullet.draw_bullet()
-            self.ship.blitme()
-            self.aliens.draw(self.screen)
+        """Обновляет изображения на экране и отображает новый экран."""
+        self.screen.fill(self.settings.bg_color)
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+        self.ship.blitme()
+        self.aliens.draw(self.screen)
 
-            # Кнопка Play отображается в том случае, если игра неактивна.
-            if not self.game_active:
-                self.play_button.draw_button()
+        # Вывод информации о счёте.
+        self.sb.show_score()
+
+        # Кнопка Play отображается в том случае, если игра неактивна.
+        if not self.game_active:
+            self.play_button.draw_button()
             
-            pygame.display.flip()
+        pygame.display.flip()
 
 if __name__ == '__main__':
     # Создание экземпляра и запуск игры.
-    Ai = AlienIvasion()
+    Ai = AlienInvasion()
     Ai.run_game()
