@@ -163,7 +163,6 @@ class AlienInvasion:
         self.stats.level += 1
         self.sb.prep_level()
 
-
     def _update_aliens(self):
         """
         Проверяет, достиг ли флот края экрана, с последующим обновлением
