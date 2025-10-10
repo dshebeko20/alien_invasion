@@ -27,9 +27,8 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
+        
         pygame.display.set_caption("Alien Invasion")
-
-        self.mixer = pygame.mixer.music.load('sound/SHOOT011.mp3')
 
         # Создание экземпляров для хранения статистики и панели результатов.
         self.stats = GameStats(self)
@@ -124,6 +123,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            pygame.mixer.music.load('sound/SHOOT011.mp3')
             pygame.mixer.music.play()
 
     def _update_bullets(self):
