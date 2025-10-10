@@ -1,6 +1,6 @@
 import pygame.font
-from pygame.sprite import Group
 
+from pygame.sprite import Group
 from ship import Ship
 
 class Scoreboard:
@@ -17,8 +17,10 @@ class Scoreboard:
         # Настройки шрифта и вывода счёта.
         self.text_color = (127, 0, 255)
         self.font = pygame.font.SysFont(None, 48)
-
-        # Подготовка изображений счетов.
+        self.prep_images()
+    
+    def prep_images(self):
+        """Готовит изображени счетов игровой статистики."""
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
@@ -48,19 +50,13 @@ class Scoreboard:
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
 
-    def check_high_score(self):
-        """Проверяет, появился ли новый рекорд."""
-        if self.stats.score > self.stats.high_score:
-            self.stats.high_score = self.stats.score
-            self.prep_high_score()
-
     def prep_level(self):
         """Преобразует уровень в графическое изображение."""
         level_str = f"Level: {str(self.stats.level)}"
         self.level_image = self.font.render(level_str, True,
                 self.text_color, self.settings.bg_color)
         
-        # Уровень выводится под текщим счётом.
+        # Уровень выводится под текущим счётом.
         self.level_rect = self.level_image.get_rect()
         self.level_rect.right = self.score_rect.right
         self.level_rect.top = self.score_rect.bottom + 10
@@ -74,6 +70,11 @@ class Scoreboard:
             ship.rect.y = 10
             self.ships.add(ship)
     
+    def check_high_score(self):
+        """Проверяет, появился ли новый рекорд."""
+        if self.stats.score > self.stats.high_score:
+            self.stats.high_score = self.stats.score
+            self.prep_high_score()
     
     def show_score(self):
         """Выводит счёт, рекорд и количество оставшихся кораблей."""

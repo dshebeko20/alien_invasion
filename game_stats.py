@@ -8,6 +8,8 @@ class GameStats:
         """Инициализирует статистику."""
         self.settings = ai_game.settings
         self.reset_stats()
+
+        # Рекорд никогда не должен сбрасываться.
         self.high_score = self.get_saved_high_score()
 
     def get_saved_high_score(self):
