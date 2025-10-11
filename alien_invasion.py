@@ -144,6 +144,8 @@ class AlienInvasion:
                 self.bullets, self.aliens, True, True)
         
         if collisions:
+            pygame.mixer.music.load('sound/mechanical_explosion.wav')
+            pygame.mixer.music.play()
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
