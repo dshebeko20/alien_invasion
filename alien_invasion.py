@@ -124,7 +124,9 @@ class AlienInvasion:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
             pygame.mixer.music.load('sound/SHOOT011.mp3')
-            pygame.mixer.music.play()
+            pygame.mixer.music.play(1)
+            self.s_shoot = pygame.mixer.Sound('sound/SHOOT011.mp3')
+            self.s_shoot.play()
 
     def _update_bullets(self):
         """ Обновляет позиции снарядов и уничтожает старые снаряды."""
@@ -145,7 +147,9 @@ class AlienInvasion:
         
         if collisions:
             pygame.mixer.music.load('sound/mechanical_explosion.wav')
-            pygame.mixer.music.play()
+            pygame.mixer.music.play(1)
+            self.exp = pygame.mixer.Sound('sound/mechanical_explosion.wav')
+            self.exp.play()
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
