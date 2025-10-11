@@ -122,7 +122,7 @@ class AlienInvasion:
             self.ship.moving_left = False
     
     def _fire_bullet(self):
-        # Создаёт новый снаряд и добавляет его в группу bullets.
+        """Создаёт новый снаряд и добавляет его в группу bullets."""
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
@@ -214,6 +214,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
+            self.music.stop()
             pygame.mouse.set_visible(True) 
 
     def _create_fleet(self):
