@@ -77,6 +77,9 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
             self._start_game()
+            pygame.mixer.music.load('sound/game_music.wav')
+            self.music = pygame.mixer.Sound('sound/game_music.wav')
+            self.music.play(-1)
             
     def _start_game(self):
         # Сброс игровых настроек.
