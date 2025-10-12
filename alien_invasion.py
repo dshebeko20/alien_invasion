@@ -12,6 +12,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from music import Music
 
 class AlienInvasion:
     """Класс для управлением ресурсами и поведением игры."""
@@ -33,7 +34,7 @@ class AlienInvasion:
         # Создание экземпляров для хранения статистики и панели результатов.
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
-
+        self.music = Music(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -77,9 +78,7 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
             self._start_game()
-            pygame.mixer.music.load('sound/game_music.wav')
-            self.music = pygame.mixer.Sound('sound/game_music.wav')
-            self.music.play(-1)
+            self.music.play_music_game()
             
     def _start_game(self):
         # Сброс игровых настроек.
@@ -126,10 +125,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
-            pygame.mixer.music.load('sound/SHOOT011.mp3')
-            pygame.mixer.music.play(1)
-            self.s_shoot = pygame.mixer.Sound('sound/SHOOT011.mp3')
-            self.s_shoot.play()
+            self.music.play_music_shoot()
 
     def _update_bullets(self):
         """ Обновляет позиции снарядов и уничтожает старые снаряды."""
@@ -149,10 +145,7 @@ class AlienInvasion:
                 self.bullets, self.aliens, True, True)
         
         if collisions:
-            pygame.mixer.music.load('sound/mechanical_explosion.wav')
-            pygame.mixer.music.play(1)
-            self.exp = pygame.mixer.Sound('sound/mechanical_explosion.wav')
-            self.exp.play()
+            self.music.play_music_exp()
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
@@ -214,7 +207,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
-            self.music.stop()
+            self.music.stop_music()
             pygame.mouse.set_visible(True) 
 
     def _create_fleet(self):
