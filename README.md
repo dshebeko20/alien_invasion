@@ -113,9 +113,9 @@
 - структурировании кода;
 - документировании проектов.
 
-Автор: Шебеко Дмитрий
-E_mail: dshebeko20@gmail.com   
-Telegram: [@dshebeko_20](https://t.me/dshebeko_20) 
+Автор: Шебеко Дмитрий  
+E_mail: dshebeko20@gmail.com  
+Telegram: [@dshebeko_20](https://t.me/dshebeko_20)   
 GitHub: https://github.com/dshebeko20
 
 ❤️ Благодарности
