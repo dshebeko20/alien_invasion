@@ -62,7 +62,7 @@
 
 2. Перейдите в папку проекта:
    ```bash
-   cd alien-invasion
+   cd alien_invasion
 
 3. Установите зависимости:
    ```bash
